@@ -1,3 +1,3 @@
-# Projeto3
+## Projeto3
 
 Integrantes: João Antônio, Julia Figueiredo, Pedro Fracassi, Pedro Lacerda
