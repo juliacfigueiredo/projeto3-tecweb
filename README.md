@@ -10,6 +10,11 @@ Aplicativo de chat em tempo real com login e criação de grupos.
 2. Backend e frontend usando NextJS + Prisma 
 3. Chat em tempo real usando Liveblocks
 
+## Timeline
+
+- [ ] Setup do projeto no Next
+- [ ] Instalação do Prisma
+- [ ] Definição dos modelos de banco de dados no `schema.prisma`
 
 ## Setup desenvolvimento
 
