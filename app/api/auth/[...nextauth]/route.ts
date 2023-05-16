@@ -10,12 +10,6 @@ export const authOptions: NextAuthOptions = {
   },
   pages: {
     newUser: "/",
-    signIn: "/login",
-  },
-  callbacks: {
-    signIn: async (user) => {
-      return '/'
-    },
   },
   providers: [
     CredentialsProvider({
