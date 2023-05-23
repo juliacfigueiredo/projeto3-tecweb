@@ -4,7 +4,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 
 export interface ChatResponse {
   chats: Chat[]
-}
+} 
 
 export interface Chat {
   id: string
