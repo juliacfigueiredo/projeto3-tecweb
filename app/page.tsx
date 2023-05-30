@@ -14,7 +14,12 @@ export default function Home() {
       <pre>{JSON.stringify(session, null, 2)}</pre>
       {
         session ? (
+          <>
           <Button onClick={() => signOut()}>Sign out</Button>
+          <Link href={'/chat'}>
+            <Button>Chat</Button>
+          </Link>
+          </>      
         ) : (
           <>
             <Button colorScheme="blue" onClick={() => {
