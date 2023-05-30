@@ -1,5 +1,6 @@
 'use client';
 import CardChat from '@/components/card';
+import Link from 'next/link';
 import { ChangeEvent, useEffect, useState } from 'react';
 
 export interface ChatResponse {
@@ -39,7 +40,9 @@ export default function page() {
 
     <div>
         {chats.map((chat) => (
-          <CardChat chatName={chat.name} />
+          <Link href={'/chat/' + chat.id}>
+            <CardChat chatName={chat.name} />
+          </Link>
         ))}
     </div>
   )

@@ -1,24 +1,53 @@
 import { prisma } from "@/app/lib/prisma";
+import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
+    const serverSession = await getServerSession()
+    
+    if (!serverSession?.user?.name) {
+        return new NextResponse(
+            JSON.stringify({
+                status: "error",
+                message: 'Unauthorized',
+            }),
+            { status: 403 }
+        );
+    }
+
     try{
-        const {namechat,member} = (await req.json()) as {
+        const {namechat} = (await req.json()) as {
             namechat: string;
-            member: string;
         };
+
+        const myself = await prisma.user.findUnique({
+            where: {
+                username: serverSession?.user?.name
+            }
+        })
+
+        if (!myself) {
+            return new NextResponse(
+                JSON.stringify({
+                    status: "error",
+                    message: 'Unauthorized',
+                }),
+                { status: 403 }
+            );
+        }
+
         const chat = await prisma.chat.create({
             data: {
                 name: namechat.toLowerCase(),
                 members: {
-                    connect: [
+                    create: [
                         {
-                            id: member,
-                        },
-                    ],
+                            user_id: myself.id
+                        }
+                    ]
             },
-        }})
-        ;
+        }});
+
         return NextResponse.json({
             chat: {
                 id: chat.id,
@@ -26,6 +55,7 @@ export async function POST(req: Request) {
             },
         });
     } catch (error: any) {
+        console.error(error)
         return new NextResponse(
             JSON.stringify({
                 status: "error",

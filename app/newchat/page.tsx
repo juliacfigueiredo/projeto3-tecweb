@@ -1,21 +1,29 @@
 'use client';
 
-import Image from 'next/image'
-import styles from './page.module.css'
 import { ChangeEvent, useState } from 'react';
 import { Button, Container, Input } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
-import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 export default function Page() {
     let [formValues, setFormValues] = useState({
         namechat: "",
-        members: "",
       });
+
       let [isLoading, setIsLoading] = useState(false);
+      const router = useRouter()
+
       const submitForm = async () => {
         setIsLoading(true);
-        signIn('credentials', formValues)
+        const response = await fetch('/api/newchat', {
+            method: 'POST',
+            body: JSON.stringify({
+                namechat: formValues.namechat,
+            })
+        })
+        setFormValues({
+            namechat: "",
+        })
+        router.push('/chat')
       }
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -31,14 +39,6 @@ export default function Page() {
                 placeholder='Nome do chat'
                 onChange={handleChange}
                 isInvalid={formValues.namechat.length < 1}
-            />
-            Membros:
-            <Input
-                value={formValues.members}
-                name='members'
-                placeholder='Membros'
-                onChange={handleChange}
-                isInvalid={formValues.members.length < 1}
             />
             <Button
                 onClick={submitForm}
