@@ -67,3 +67,41 @@ export async function POST(req: Request) {
         );
     }
 }
+
+export async function GET(req: Request, res: Response) {
+    try{
+        const serverSession = await getServerSession()
+
+        if (!serverSession?.user?.name) {
+            return new NextResponse(
+                JSON.stringify({
+                    status: "error",
+                    message: 'Unauthorized',
+                }),
+                { status: 403 }
+            );
+        }
+
+        const texts = await prisma.message.findMany({
+            where: {
+                text: { 
+                    not : ''
+                },
+
+            },
+        })
+        return NextResponse.json({
+            texts,
+        });
+    } catch (error: any) {
+        console.error(error)
+        return new NextResponse(
+            JSON.stringify({
+                status: "error",
+                message: 'Unauthorized',
+            }),
+            { status: 403 }
+        );
+    }
+}
+
