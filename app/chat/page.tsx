@@ -2,6 +2,7 @@
 import CardChat from '@/components/card';
 import Link from 'next/link';
 import { ChangeEvent, useEffect, useState } from 'react';
+import { Button} from '@chakra-ui/react';
 
 export interface ChatResponse {
   chats: Chat[]
@@ -44,6 +45,11 @@ export default function page() {
             <CardChat chatName={chat.name} />
           </Link>
         ))}
+        <Link href = '/newchat'>
+          <Button >
+            New Chat
+          </Button>
+        </Link>
     </div>
   )
 }
