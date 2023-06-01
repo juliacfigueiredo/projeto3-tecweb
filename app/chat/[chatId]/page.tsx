@@ -38,17 +38,18 @@ function ChatRoom({
   })
 
   useEffect(() => {
-    updateMessages()
-  }, [updateMessages])
+    function updateMessages() {
+      fetch(`/api/chats/${chatId}`).then((res) => res.json()).then((data: Chat & { messages: (Message & { user: User })[] }) => {
+        setChatName(data.name)
+        setChatMessages(data.messages.map(m => ({ text: m.text, username: m.user.username })))
+        setIsLoading(false)
+        console.log(data)
+      })
+    }
 
-  function updateMessages() {
-    fetch(`/api/chats/${chatId}`).then((res) => res.json()).then((data: Chat & { messages: (Message & { user: User })[] }) => {
-      setChatName(data.name)
-      setChatMessages(data.messages.map(m => ({ text: m.text, username: m.user.username })))
-      setIsLoading(false)
-      console.log(data)
-    })
-  }
+    updateMessages()
+  }, [])
+
   const broadcast = useBroadcastEvent()
 
   const handleKeyDown: KeyboardEventHandler = (event) => {

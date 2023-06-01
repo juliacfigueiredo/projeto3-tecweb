@@ -28,7 +28,7 @@ export interface User {
   id: string
 }
 
-export default function page() {
+export default function Page() {
   useEffect(() => {
     fetch('/api/chats').then(res => res.json()).then(chats => {
       setChats(chats.chats)
@@ -53,8 +53,8 @@ export default function page() {
                 </Button>
               </Link>
               {
-                chats.map((chat) => (
-                  <Link href={'/chat/' + chat.id}>
+                chats.map((chat, i) => (
+                  <Link key={i} href={'/chat/' + chat.id}>
                     <CardChat chatName={chat.name} />
                   </Link>
                 ))
