@@ -39,7 +39,7 @@ function ChatRoom({
 
   useEffect(() => {
     updateMessages()
-  }, [])
+  }, [updateMessages])
 
   function updateMessages() {
     fetch(`/api/chats/${chatId}`).then((res) => res.json()).then((data: Chat & { messages: (Message & { user: User })[] }) => {
