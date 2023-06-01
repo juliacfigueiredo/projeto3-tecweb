@@ -32,24 +32,36 @@ export default function page() {
   useEffect(() => {
     fetch('/api/chats').then(res => res.json()).then(chats => {
       setChats(chats.chats)
+      setIsLoading(false)
     })
-  })
+  }, [])
+  const [chats, setChats] = useState<Chat[]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
-  const[chats, setChats] = useState<Chat[]>([])
-    
   return (
-
     <div>
-        {chats.map((chat) => (
-          <Link href={'/chat/' + chat.id}>
-            <CardChat chatName={chat.name} />
-          </Link>
-        ))}
-        <Link href = '/newchat'>
-          <Button >
-            New Chat
-          </Button>
-        </Link>
+        {
+          isLoading ? (
+            <>
+              Loading...
+            </>
+          ) : (
+            <>
+              <Link href='/newchat'>
+                <Button >
+                  New Chat
+                </Button>
+              </Link>
+              {
+                chats.map((chat) => (
+                  <Link href={'/chat/' + chat.id}>
+                    <CardChat chatName={chat.name} />
+                  </Link>
+                ))
+              }
+                </>
+          )
+        }
     </div>
   )
 }
